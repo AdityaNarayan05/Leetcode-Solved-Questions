@@ -1,16 +1,10 @@
 class Solution {
 public:
     int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
-        int ans=0;
-        for(int i=0;i<arr1.size();i++){
-            bool found=false;
-            for(int j=0;j<arr2.size() && !found;++j)
-                if(abs(arr1[i]-arr2[j])<=d)
-                    found=true;
-            
-            if(!found)
-                ++ans;
-        }
-        return ans;
+        return count_if(begin(arr1),end(arr1),[&](const auto &a){
+            return all_of(begin(arr2),end(arr2),[&](const auto &b){
+                return abs(a-b)>d;
+            });
+        });
     }
 };
