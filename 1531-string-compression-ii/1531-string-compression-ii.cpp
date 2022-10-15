@@ -1,25 +1,27 @@
-int cache[101][27][101][101];
+const int INF = 1e9;
 class Solution {
+    vector<vector<int>> memo;
+    
+    int getLengthOfOptimalCompression(int i, int K, const string& s) {
+        const int n = s.length();
+        if(i + K >= n) return 0;
+        int& ans = memo[i][K];
+        if(ans != INF) return ans;
+        if(K) ans = getLengthOfOptimalCompression(i+1, K-1, s);
+        int counter{1}, k{K};
+        for(int j = i+1; j <= n; ++j) {
+            ans = min(ans, getLengthOfOptimalCompression(j, k, s) + 1 + (counter >= 100 ? 3 : counter >= 10 ? 2 : counter >= 2 ? 1 : 0));
+            if(j == n) break;
+            if(s[i] == s[j]) counter++;
+            else if(--k < 0) break;
+        }
+        return ans;
+    }
+    
 public:
-  int getLengthOfOptimalCompression(string s, int k) {
-      memset(cache, -1, sizeof(cache));
-      function<int(int, int, int, int)> dp = [&](int i, int last, int len, int k) {
-          if (k < 0)
-              return INT_MAX / 2;
-          if (i >= s.length())
-              return 0;
-          int& ans = cache[i][last][len][k];
-          if (ans != -1)
-              return ans;
-          if (s[i] - 'a' == last) { 
-              int carry = (len == 1 || len == 9 || len == 99);
-              ans = carry + dp(i + 1, last, len + 1, k);
-          } else {
-              ans = min(1 + dp(i + 1, s[i] - 'a', 1, k),  // keep s[i]
-              dp(i + 1, last, len, k - 1)); // delete s[i]
-          }
-          return ans;
-    };
-      return dp(0, 26, 0, k);
-  }
+    int getLengthOfOptimalCompression(string s, int k) {
+        const int n = s.length();
+        memo.assign(n, vector<int>(k+1, INF));
+        return getLengthOfOptimalCompression(0, k, s);
+    }
 };
