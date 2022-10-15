@@ -11,7 +11,7 @@ public:
                     continue;
                 }
                 dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i - 1][j - 1];
-                cout<<dp[i][j];
+                // cout<<dp[i][j];
                 
             }
         }
