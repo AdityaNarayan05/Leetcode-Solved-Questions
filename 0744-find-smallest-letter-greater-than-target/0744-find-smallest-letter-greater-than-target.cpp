@@ -1,14 +1,16 @@
 class Solution {
 public:
     char nextGreatestLetter(vector<char>& letters, char target) {
-        vector<int> mp(26,0);
-        for(int i=0;i<letters.size();++i)
-            mp[letters[i]-'a']++;
-        
-        int idx=(target-'a'+1)%26;
-        while(mp[idx]==0){
-            idx=(idx+1)%26;
+        int low=0;
+        int high=letters.size()-1;
+        while(low<high){
+            int mid=low+(high-low)/2;
+            if(letters[mid]<=target)
+                low=mid+1;
+            else
+                high=mid;
         }
-        return 'a'+idx;
+        
+        return letters[low]>target ? letters[low] : letters[0];
     }
 };
