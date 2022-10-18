@@ -1,20 +1,21 @@
 class Solution {
 public:
     string countAndSay(int n) {
-        if (n == 0)
-            return "";
-        string res = "1";
-        while (--n) {
-            string cur = "";
-            for (int i = 0; i <res.size(); i++) {
-                int count = 1;
-                while ((i + 1 < res.size()) && (res[i] == res[i + 1])){
-                    count++;
-                    i++;
-                }
-                cur += to_string(count) + res[i];
+        if(n==1)
+            return "1";
+        string str = countAndSay(n-1);
+        string res = "";
+        int s = str.size();
+        int i = 0;
+        while(i<s){
+            char c = str[i];
+            int count = 0;
+            while(i<s and str[i]==c){
+                count++;
+                i++;
             }
-            res = cur;
+            res+='0'+count;
+            res+=c;
         }
         return res;
     }
