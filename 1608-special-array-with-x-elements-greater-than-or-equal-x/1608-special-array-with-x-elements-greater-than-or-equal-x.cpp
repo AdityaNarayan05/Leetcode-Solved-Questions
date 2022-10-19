@@ -1,16 +1,18 @@
 class Solution {
 public:
-    bool check(int num, vector<int> &nums) { 
-        for (int i = 0; i < nums.size(); i++) {
-            if (nums[i] >= num) 
-                return (nums.size() - i) == num;                
-        }
-        return false;
-    }
     int specialArray(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        for (int i = 0; i <= nums.size() ; i++) { // O(N)
-            if (check(i, nums)) return i; // O(N)
+        sort(nums.begin(), nums.end()); // O(NlogN)
+        int l = 1, r = nums.size();
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            auto itr = lower_bound(nums.begin(), nums.end(), m); // O(logN)
+            int c = distance(itr, nums.end()); // O(1)
+            if (c == m)
+                return m;
+            else if (c > m)
+                l = m + 1;
+            else
+                r = m - 1;
         }
         return -1;
     }
