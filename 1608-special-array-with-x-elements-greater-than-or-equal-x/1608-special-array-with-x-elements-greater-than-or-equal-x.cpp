@@ -1,18 +1,26 @@
 class Solution {
 public:
+    int greaternumberofelment(vector<int>& nums,int val){
+            int count =0;
+            for( int i=0;i<nums.size();++i){
+                if(nums[i]>=val)
+                    ++count;
+            }
+            return count;
+        }
     int specialArray(vector<int>& nums) {
-        sort(nums.begin(), nums.end()); // O(NlogN)
-        int l = 1, r = nums.size();
-        while (l <= r) {
-            int m = l + (r - l) / 2;
-            auto itr = lower_bound(nums.begin(), nums.end(), m); // O(logN)
-            int c = distance(itr, nums.end()); // O(1)
-            if (c == m)
-                return m;
-            else if (c > m)
-                l = m + 1;
+        int s=0;
+        int e=1000;
+        int mid;
+        while(s<=e){
+            mid=(s+e)/2;
+            int comp= greaternumberofelment(nums,mid);            
+            if(mid==comp)
+                return comp;
+            if(comp>mid)
+                s=mid+1;
             else
-                r = m - 1;
+                e=mid-1;
         }
         return -1;
     }
