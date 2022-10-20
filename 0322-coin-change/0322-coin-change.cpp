@@ -3,28 +3,25 @@ public:
     int dp[12+1][10000+1];
     
     int coinChange(vector<int>& coins, int amount) {
-        memset(dp,-1,sizeof(dp));
-        int res=findLowestCoins(coins,0,amount);
+        int res=findLowestCoins(coins,coins.size(),amount);
         return res==INT_MAX-1 ? -1 : res;
     }
     
-    int findLowestCoins(vector<int> &coins,int curr,int amount){
-        if(curr >=coins.size() or amount<=0)
-            return amount==0 ? 0 : INT_MAX-1;
+    int findLowestCoins(vector<int> &coins,int n,int amount){
+        for(int i=0;i<=n;++i)
+            for(int j=0;j<=amount;j++)
+                if(i==0 || j==0)
+                    dp[i][j]=j==0 ? 0 : INT_MAX-1;
         
-        if(dp[curr][amount]!=-1)
-            return dp[curr][amount];
+        for(int i=1;i<=n;++i){
+            for(int j=1;j<=amount;++j){
+                if (coins[i - 1] > j)
+                    dp[i][j] = 0 + dp[i - 1][j];
+                else
+                    dp[i][j] = min(0 + dp[i - 1][j], 1 + dp[i][j - coins[i - 1]]);
+            }
+        }
         
-        int res=-1;
-        if(coins[curr]>amount){
-            int dontake=0+findLowestCoins(coins,curr+1,amount-0);
-            dp[curr][amount]=res=dontake;
-        }
-        else{
-            int take=1+findLowestCoins(coins,curr+0,amount-coins[curr]);
-            int dontake=0+findLowestCoins(coins,curr+1,amount-0);
-            dp[curr][amount]=res=min(take,dontake);
-        }
-        return dp[curr][amount]=res;
+        return dp[n][amount];
     }
 };
