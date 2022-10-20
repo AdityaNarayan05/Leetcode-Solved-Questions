@@ -1,16 +1,14 @@
 class Solution {
 public:
     int integerBreak(int n) {
-        if(n==2)
+        return Break(n,n-1);
+    }
+    int Break(int n,int curr){
+        if(n==0 or curr==0)
             return 1;
-        if(n==3)
-            return 2;
-        int product = 1;
-        while(n>4){
-            product*=3;
-            n-=3;
-        }
-        product*=n;
-        return product;
+        if(curr>n)
+            return Break(n-0,curr-1);
+        else
+            return max(Break(n-0,curr-1),curr*Break(n-curr,curr));
     }
 };
