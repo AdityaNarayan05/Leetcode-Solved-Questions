@@ -1,19 +1,24 @@
 class Solution {
 public:
     int earliestFullBloom(vector<int>& plantTime, vector<int>& growTime) {
-        int n = plantTime.size();
-        vector<pair<int, int>> times(n);
-        for (int i = 0; i < n; i++) {
-            times[i].first = -growTime[i];
-            times[i].second = plantTime[i];
+        std::pmr::monotonic_buffer_resource mbr;
+        std::pmr::vector<pair<int,int>> plants {&mbr};
+        plants.resize(growTime.size());
+        
+        for (int index = 0; index < growTime.size(); ++index) {
+            plants[index].first = growTime[index];
+            plants[index].second = plantTime[index];
         }
-        sort(times.begin(), times.end());
-        int ans = 0;
-        int cur = 0;
-        for (int i = 0; i < n; i++) {
-            ans = max(ans, cur + times[i].second - times[i].first);
-            cur += times[i].second;
+        
+        sort(plants.begin(), plants.end(), greater<pair<int,int>>());
+        
+        int result = 0;
+        int acc = 0;
+        for (auto &plant : plants) {
+            //cout << plant.first << " " << plant.second << endl;
+            result = max(result, acc + plant.first + plant.second);
+            acc += plant.second;
         }
-        return ans;
+        return result;
     }
 };
