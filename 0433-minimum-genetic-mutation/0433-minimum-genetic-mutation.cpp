@@ -17,7 +17,7 @@ public:
                 if(cur.first == end)
                     return cur.second;
                 int len = cur.first.length();
-                for(int k = 0; k < len; k++){
+                for(int k = 0; k <= len; k++){
                     char org = cur.first[k];
                     for(int j = 0; j < 4; j++){
                         cur.first[k] = gn[j];
