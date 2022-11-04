@@ -1,6 +1,6 @@
 class Trie {
 public:
-    Trie* next[26]={};
+    map<char,Trie*> next={};
     bool isWord=false;
     
     Trie() {
@@ -10,8 +10,7 @@ public:
     void insert(string word) {
         Trie* node=this;
         for(char w:word){
-            w-='a';
-            if(!node->next[w])
+            if(!node->next.count(w))
                 node->next[w]=new Trie();
             node=node->next[w];
         }
@@ -21,8 +20,7 @@ public:
     bool search(string word) {
         Trie* node=this;
         for(char w:word){
-            w-='a';
-            if(!node->next[w])
+            if(!node->next.count(w))
                 return false;
             node=node->next[w];
         }
@@ -32,8 +30,7 @@ public:
     bool startsWith(string prefix) {
         Trie* node=this;
         for(char pre:prefix){
-            pre-='a';
-            if(!node->next[pre])
+            if(!node->next.count(pre))
                 return false;
             node=node->next[pre];
         }
