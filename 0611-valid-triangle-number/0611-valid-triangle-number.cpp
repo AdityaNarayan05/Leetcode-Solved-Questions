@@ -1,18 +1,25 @@
 class Solution {
 public:
-    int triangleNumber(vector<int>& nums) {
-        int cnt=0,n=nums.size();
-        sort(nums.begin(),nums.end());
-        for(int i=2;i<n;++i){
-            int l=0,r=i-1;
-            while(l<r){
-                if(nums[l]+nums[r]>nums[i]){
-                    cnt+=r-l;
-                    r--;
-                }else
-                    ++l;
+    int helper(vector<int>& nums, int l, int r, int minimum){
+        int ret = 0;
+        while(l < r){
+            int sum = nums[l] + nums[r];
+            if(sum <= minimum)
+                l++;
+            else{
+                ret += (r - l);
+                r--;
             }
         }
-        return cnt;
+        return ret;
+    }
+
+    int triangleNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int ret = 0;
+        for(size_t i = n-1; i >= 2; --i)
+            ret += helper(nums, 0, i-1, nums[i]);
+        return ret;
     }
 };
