@@ -7,12 +7,12 @@ public:
             sum+=v;
         }
         int ks=k%sum;
-        cout<<ks<<endl;
+        // cout<<ks<<endl;
         while(ks>0){
             if(ks>=chalk[i]){
               ks-=chalk[i]; 
                 i++;
-                cout<<ks<<" ";
+                // cout<<ks<<" ";
             }
             else{
                 x=i;
