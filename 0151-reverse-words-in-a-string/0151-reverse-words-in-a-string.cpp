@@ -14,7 +14,7 @@ public:
            }
                
         }
-        cout<<st.top();
+        // cout<<st.top();
         string ans;
         ans += st.top();
         st.pop();
