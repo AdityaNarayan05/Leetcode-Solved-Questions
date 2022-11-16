@@ -2,11 +2,9 @@ class Solution {
 public:
     vector<int> nums;
     Solution(vector<int>& w) {
-        for(auto num:w){
-            if(nums.empty())
-                nums.push_back(num);
-            else
-                nums.push_back(num+nums.back());
+        nums.push_back(w[0]);
+        for(int i=1;i<w.size();i++){
+            nums.push_back(nums[i-1]+w[i]);
         }
     }
     
