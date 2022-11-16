@@ -1,0 +1,2 @@
+for the array of {1, 3, 4, 6}
+the pickIndex() call will have 1/(1+3+4+6) = 1/14 = ~7% chance of picking index 0; 3/14 = 21% change of picking index 1; 4/14 = 29% change of picking index 2; and 6/14 = 43% of picking index 3.
