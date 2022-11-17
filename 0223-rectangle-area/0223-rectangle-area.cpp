@@ -1,10 +1,9 @@
 class Solution {
 public:
-    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
-        int A1=(C-A)*(D-B);
-        int A2=(G-E)*(H-F);
-        int left = max(A,E), right = max(min(C,G), left);
-        int bottom = max(B,F), top = max(min(D,H), bottom);
-        return A1+A2-(right-left)*(top-bottom);
+    int computeArea(int ax1, int ay1, int ax2, int ay2, int bx1, int by1, int bx2, int by2) {
+        int w = min(ax2, bx2) - max(ax1, bx1);
+        int h = min(ay2, by2) - max(ay1, by1);
+        int s = (ax2 - ax1) * (ay2 - ay1) + (bx2 - bx1) * (by2 - by1);
+        return w > 0 && h > 0 ? s - w * h : s;
     }
 };
