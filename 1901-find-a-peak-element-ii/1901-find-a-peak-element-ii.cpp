@@ -1,26 +1,29 @@
 class Solution {
 public:
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
-        int startCol = 0, endCol = mat[0].size()-1;
-        while(startCol <= endCol){
-            int maxRow = 0, midCol = startCol + (endCol-startCol)/2;
+        int n=mat.size();
+        int m=mat[0].size();
+        int i=0,j=m-1,up,down,left,right;
+        while(1){
+            up=i-1<0?-1:mat[i-1][j];
+            down=i+1>=n?-1:mat[i+1][j];
+            left=j-1<0?-1:mat[i][j-1];
+            right=j+1>=m?-1:mat[i][j+1];
             
-            for(int row=0; row<mat.size(); row++){
-                maxRow = mat[row][midCol] >= mat[maxRow][midCol]? row : maxRow;   
-            }
+            if(mat[i][j]>up && mat[i][j]>down && mat[i][j]>left && mat[i][j]>right)
+                return {i,j};
             
-            bool leftIsBig    =   midCol-1 >= startCol  &&  mat[maxRow][midCol-1] > mat[maxRow][midCol];
-            bool rightIsBig   =   midCol+1 <= endCol    &&  mat[maxRow][midCol+1] > mat[maxRow][midCol];
+            int maxi=max({up,down,left,right});
             
-            if(!leftIsBig && !rightIsBig)
-                return vector<int>{ maxRow, midCol};
-            
-            else if(rightIsBig) 
-                startCol = midCol+1;   
-            
-            else
-                endCol = midCol-1;
+            if(up==maxi)
+                i--;
+            else if
+                (down==maxi)i++;
+            else if
+                (left==maxi)j--;
+            else if
+                (right==maxi)j++;
         }
-        return vector<int>{-1,-1};
+        return {-1,-1};
     }
 };
