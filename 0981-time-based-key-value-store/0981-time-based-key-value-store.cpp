@@ -1,18 +1,25 @@
 class TimeMap {
 public:
-    unordered_map<string,map<int,string>> mp;
+    unordered_map<string , vector<pair<int , string>>> mp;
     TimeMap() {
-        
+        ios_base::sync_with_stdio(false);
+        cin.tie(nullptr);
     }
     
-    void set(string key, string value, int timestamp) {
-        mp[key].insert({timestamp,value});
+    static bool sort(const pair<int , string> &a , const pair<int , string> &b){
+        return a.first > b.first;
     }
     
-    string get(string key, int timestamp) {
-        
-        auto it=mp[key].upper_bound(timestamp);
-        return it==mp[key].begin()?"":prev(it)->second;
+    void set(string key, string val, int ts) {
+        mp[key].push_back({ts , val});
+    }
+    string get(string key, int ts) {   
+        auto &h = mp[key];
+        auto ans = lower_bound(h.rbegin() , h.rend() , pair<int , string>{ts,""} , sort);
+        if(ans == h.rend())
+            return "";
+        else
+            return (*ans).second;
     }
 };
 
