@@ -19,8 +19,8 @@ public:
     
     int get(int index, int snap_id) {
         auto it=m[index].upper_bound(snap_id);
-        // it--;
-        return prev(it)->second;
+        it--;
+        return it->second;
     }
 };
 
