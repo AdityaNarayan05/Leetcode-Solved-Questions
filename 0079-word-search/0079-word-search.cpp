@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool dfs(vector<vector<char>> &board,string word,int i,int j,int n){
+        if(n==word.size())
+            return true;
+        
+        if(i < 0 or i >= board.size() or j < 0 or j >= board[i].size() or board[i][j] != word[n])
+            return false;
+        
+        board[i][j]='0';
+        
+        bool status = dfs(board, word, i + 1, j, n + 1) ||  //down
+                        dfs(board, word, i, j + 1, n + 1) ||  //right
+                        dfs(board, word, i - 1, j, n + 1) ||  //up
+                        dfs(board, word, i, j - 1, n + 1);  //left
+        
+        
+        board[i][j]=word[n];
+        return status;
+    }
+    
+    bool exist(vector<vector<char>>& board, string word) {
+       if(word=="")
+         return false;
+        
+        for(int i=0;i<board.size();i++)
+            for(int j=0;j<board[i].size();j++)
+                if(board[i][j]==word[0] and dfs(board,word,i,j,0))
+                    return true;
+        
+        return false;
+    }
+};
