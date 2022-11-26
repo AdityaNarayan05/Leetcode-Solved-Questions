@@ -28,7 +28,7 @@ public:
             dq.push_back({nums[i],i});
             if(i>=k-1){
                 ans.push_back(dq.front().first);
-                cout<<dq.front().first<<" ";
+                // cout<<dq.front().first<<" ";
             } 
         }
         return ans;
