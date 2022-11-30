@@ -14,9 +14,22 @@ public:
         if(!head or !head->next)
             return head;
         
-        ListNode* temp=head->next;
-        head->next=swapPairs(temp->next);
-        temp->next=head;
-        return temp;
+        ListNode* prevPtr=NULL;
+        ListNode* currPtr=head;
+        ListNode* nextPtr;
+        
+        int cnt=0;
+        while(currPtr and cnt<2){
+            nextPtr=currPtr->next;
+            currPtr->next=prevPtr;
+            
+            prevPtr=currPtr;
+            currPtr=nextPtr;
+            cnt++;
+        }
+        if(nextPtr)
+            head->next=swapPairs(nextPtr);
+        
+        return prevPtr;
     }
 };
