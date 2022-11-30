@@ -6,7 +6,8 @@ public:
         for (auto n : arr)
             ++m[n];
         for (auto& p : m)
-            s.insert(p.second);
+            if (!s.insert(p.second).second)
+                return false;
   
         return m.size() == s.size();
     }
