@@ -1,17 +1,24 @@
 class Solution {
 public:
     bool halvesAreAlike(string s) {
-        int t=0;
-        for(int i=0;i<s.size();i++){   
-            s[i]=tolower(s[i]);
-            if(i<s.size()/2){
-                if(s[i]==97 || s[i]==101 || s[i]==105 || s[i]==111 || s[i]==117)
-                      t++;                
-            } else{
-                if(s[i]==97 || s[i]==101 || s[i]==105 || s[i]==111 || s[i]==117)
-                     t--;        
-            }     
-        } 
-       return (t==0);
+        int size = s.size();
+        string firstHalve = s.substr(0, size/2);
+        string secondHalve = s.substr(size/2);
+        
+        int cnt1 = 0;
+        int cnt2 = 0;
+        for(int i = 0, j = 0; i < firstHalve.size(); i++, j++){
+           if(firstHalve[i] == 'a' || firstHalve[i]== 'e'|| firstHalve[i] == 'i'|| firstHalve[i] == 'o'|| firstHalve[i] == 'u'|| firstHalve[i] == 'A'|| firstHalve[i] == 'E'|| firstHalve[i] == 'I'|| firstHalve[i] == 'O'|| firstHalve[i] == 'U')
+               cnt1++;
+
+           if(secondHalve[j] == 'a' || secondHalve[j]  == 'e'|| secondHalve[j]  == 'i'|| secondHalve[j]  == 'o'|| secondHalve[j]  == 'u'|| secondHalve[j]  == 'A'|| secondHalve[j]  == 'E'|| secondHalve[j]  == 'I'|| secondHalve[j]  == 'O'|| secondHalve[j]  == 'U')
+               cnt2++;
+            
+        }
+
+        if(cnt1 == cnt2)
+            return true;
+        
+        return false;
     }
 };
