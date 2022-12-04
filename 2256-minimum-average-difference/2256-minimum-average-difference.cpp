@@ -1,26 +1,23 @@
 class Solution {
 public:
     int minimumAverageDifference(vector<int>& nums) {
-        int n=nums.size();
-        long long right_sum = 0;
-        for(auto it:nums) 
-            right_sum += it;
-
-        int mini = INT_MAX;
-        int idx = 0;
-        
-        long long left_sum = 0;        
-        for(int i=0; i<n; i++){
-            left_sum += nums[i];
-            right_sum -= nums[i];
-            long long first = (left_sum/(i+1));
-            long long last = i<n-1 ? (right_sum/(n-i-1)) : 0;
-            int diff = abs(first - last);
-            if(diff < mini){
-                mini = diff;
-                idx = i;
+        long total = 0;
+        for(auto i : nums) {
+            total += i;
+        }
+        int min = numeric_limits<int>::max();
+        long leftsum = 0;
+        const int sz = nums.size();
+        int ans = 0;
+        for(int i = 0; i < sz; ++i) {
+            leftsum += nums[i];
+            int leftavg = leftsum / (i + 1);
+            int rightavg = (sz - i - 1 == 0) ? 0 : (total - leftsum) / (sz - i - 1);
+            if(abs(leftavg - rightavg) < min) {
+                min = abs(leftavg - rightavg);
+                ans = i;
             }
         }
-        return idx;
+        return ans;
     }
 };
