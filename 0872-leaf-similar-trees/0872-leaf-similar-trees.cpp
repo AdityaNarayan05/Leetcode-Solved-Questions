@@ -26,6 +26,13 @@ public:
         dfs(root1, nums1);
         dfs(root2, nums2);
         
-        return nums1==nums2;
+        if (nums1.size() != nums2.size())
+            return false;
+        
+        for(int i = 0; i < nums1.size(); i++){
+            if (nums1[i] != nums2[i])
+                return false;
+        }
+        return true;
     }
 };
