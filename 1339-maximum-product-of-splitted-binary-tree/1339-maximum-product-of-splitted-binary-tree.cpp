@@ -11,18 +11,24 @@
  */
 class Solution {
 public:
-    long long int sum=0,totalSum=0;
-    int maxProduct(TreeNode* root) {
-        totalSum=dfs(root);
-        dfs(root);
-        return sum%int(1e9+7);
-    }
-    
-    int dfs(TreeNode* root){
+    int m=1e9+7;
+    unordered_map<long long int,long long int>mp;
+    long long  int sum(TreeNode * root){
         if(!root)
             return 0;
-        int currSum=dfs(root->left)+dfs(root->right)+root->val;
-        sum=max(sum,(totalSum-currSum)*currSum);
-        return currSum;
+        int left=sum(root->left);
+        mp[left]++;
+        int right=sum(root->right);
+        mp[right]++;
+        return left + right+root->val;
+    }
+    int maxProduct(TreeNode* root) {
+        long long  int total=  sum(root);
+        cout<<total<<endl;
+        long long    int ans=INT_MIN;
+        for(auto it : mp)
+            ans=max(ans,it.first*(total-it.first));
+        
+        return ans%m;
     }
 };
