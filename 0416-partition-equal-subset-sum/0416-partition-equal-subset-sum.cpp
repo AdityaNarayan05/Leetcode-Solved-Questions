@@ -5,17 +5,16 @@ public:
         int n = nums.size();
         if(sum&1) 
             return 0;
-        vector<unordered_set<int>> dp(n+1);
-        dp[0].insert(0);
-        for(int i=0;i<n;i++)
-            for(int s:dp[i]) {
-                if(s==sum/2)
+        unordered_set<int> cur, nxt({0});
+        for(int n:nums) {
+            cur = nxt;
+            for(int s:cur) {
+                if(s==sum/2) 
                     return 1;
-                if(s>sum/2) 
-                    continue;
-                dp[i+1].insert(s);
-                dp[i+1].insert(s+nums[i]);
+                if(s+n<=sum/2) 
+                    nxt.insert(s+n);
             }
+        }
         return 0;
     }
 };
