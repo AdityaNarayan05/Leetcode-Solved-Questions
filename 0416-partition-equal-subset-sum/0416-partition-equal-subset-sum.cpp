@@ -2,18 +2,16 @@ class Solution {
 public:
     bool canPartition(vector<int>& nums) {
         int sum = accumulate(nums.begin(),nums.end(),0);
-        int n = nums.size();
         if(sum&1) 
             return 0;
-        unordered_set<int> cur, nxt({0});
+        vector<bool> dp(1+(sum>>=1));
+        dp[0]=1;
         for(int n:nums) {
-            cur = nxt;
-            for(int s:cur) {
-                if(s==sum/2) 
-                    return 1;
-                if(s+n<=sum/2) 
-                    nxt.insert(s+n);
+            for(int i=sum-1;i>=0;i--) {
+                if(!dp[i]) continue;
+                if(i+n<=sum) dp[i+n]=1;
             }
+            if(dp[sum]) return 1;
         }
         return 0;
     }
