@@ -1,23 +1,14 @@
 class Solution {
 public:
-    vector<int> partitionLabels(string s) {
-        vector<int> charIdx(26, 0);
-        for(int i = 0; i < s.size(); i++){
-            charIdx[s[i]-'a'] = i;
-        }
-        
-        vector<int> results;
-        int maxIdx = -1, lastIdx = 0;
-        
-        for(int i = 0; i < s.size(); i++){
-            // cout<<charIdx[s[i]-'a']<<":";
-            maxIdx = max(maxIdx, charIdx[s[i]-'a']);
-            // cout<<maxIdx<<" ";
-            if(i == maxIdx) {
-                results.push_back(maxIdx - lastIdx + 1);
-                lastIdx = i+1;
+    vector<int> partitionLabels(string S) {
+        vector<int> ans;
+        for (int i = 0, start = 0, end = 0; i < S.length(); i++) {
+            end = max(end, (int)S.find_last_of(S[i]));
+            if (i == end) {
+                ans.push_back(end - start + 1);
+                start = end + 1;
             }
         }
-        return results;
+        return ans;
     }
 };
