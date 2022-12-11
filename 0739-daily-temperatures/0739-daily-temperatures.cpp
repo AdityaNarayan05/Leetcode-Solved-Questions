@@ -1,17 +1,20 @@
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& temp) {
-        int n=temp.size();
-        vector<int> days(n,0);
-        stack<int> st;
-        for(int i=n-1;i>=0;--i){
-            while(!st.empty() and temp[st.top()]<=temp[i])
-                st.pop();
-            
-            if(!st.empty())
-                days[i]=st.top()-i;
-            st.push(i);
+        int n = temp.size();
+        vector<int>ans(n,0);
+        int maxTemp = 0;
+        for(int currDay=n-1;currDay>=0;currDay--){
+            int currTemp = temp[currDay];
+            if(currTemp>=maxTemp){
+                maxTemp=currTemp;
+                continue;
+            }
+            int days = 1;
+            while(currTemp>=temp[currDay+days])
+                days+=ans[currDay+days];
+            ans[currDay]=days;
         }
-        return days;
+        return ans;
     }
 };
