@@ -1,5 +1,3 @@
-#define ll long long int
-
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -13,30 +11,24 @@
  */
 class Solution {
 public:
-    
-    map<ll,ll> mp;
-    
-    
-    void solve(TreeNode *node, int targetSum, int &cnt, ll curr_sum){
-        if(node == NULL) return;
-        curr_sum += node->val;
-        
-        cnt += mp[curr_sum - targetSum];
-        mp[curr_sum]++;
-        
-        solve(node->left,targetSum,cnt,curr_sum);
-        solve(node->right,targetSum,cnt,curr_sum);
-        
-        mp[curr_sum]--;
-        if(mp[curr_sum] == 0) mp.erase(curr_sum);
-        return;
+    unordered_map<long, int> map;
+    int count = 0;
+    void countPathSum(TreeNode* root, int target, long sum){
+        if(!root)
+            return;
+        sum += root->val;        
+        if(sum == target)
+            count++;
+        if(map.find(sum - target) != map.end())        
+            count += map[sum - target];
+        map[sum]++;
+        countPathSum(root->left, target, sum);
+        countPathSum(root->right, target, sum);
+        map[sum]--;      
     }
     
     int pathSum(TreeNode* root, int targetSum) {
-        mp[0] = 1;
-        int cnt = 0;
-        ll curr_sum = 0;
-        solve(root,targetSum,cnt,curr_sum);
-        return cnt;
+        countPathSum(root, targetSum, 0);
+        return count;
     }
 };
