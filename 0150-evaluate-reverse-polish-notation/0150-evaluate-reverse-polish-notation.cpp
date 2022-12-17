@@ -1,18 +1,26 @@
+using func = std::function<long(long, long)>;
+auto const dispatcher = std::unordered_map<std::string, func> {
+    {"+"s, std::plus()},
+    {"-"s, std::minus()},
+    {"/"s, std::divides()},
+    {"*"s, std::multiplies()}
+};
+
 class Solution {
 public:
     int evalRPN(vector<string>& tokens) {
-        stack<long> s;
-        for(auto& t : tokens) 
-            if(t == "+" || t == "-" || t == "*" || t == "/") {
-                long op1 = s.top(); s.pop();
-                long op2 = s.top(); s.pop();
-			    if(t == "+") op1 = op2 + op1;
-			    if(t == "-") op1 = op2 - op1;
-			    if(t == "/") op1 = op2 / op1;
-			    if(t == "*") op1 = op2 * op1;   
-			    s.push(op1);
-            }else 
-                s.push(stoi(t));    // stoi - converts from string to int     
-        return s.top(); 
+        auto stk = std::stack<long>();
+            for(auto const token : tokens) {
+            if(!dispatcher.count(token)) {
+                stk.push(stoi(token));
+                continue;
+            }
+
+            auto const num1 = stk.top(); stk.pop();
+            auto const num2 = stk.top(); stk.pop();
+            stk.push(dispatcher.at(token)(num2, num1));
+
+        }
+        return stk.top();
     }
 };
