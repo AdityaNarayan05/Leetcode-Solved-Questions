@@ -1,14 +1,15 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        int count[26] = {0};
-        for(char ch : magazine)
-            count[ch - 'a']++;
-        
-        for(char ch : ransomNote)
-            if(count[ch - 'a']-- <= 0)
+        vector<int>v(128);
+        for(char a:magazine){
+            v[a]++;
+        }
+        for(char a:ransomNote){
+            if(v[a]<=0)
                 return false;
-        
+                v[a]--;
+        }
         return true;
     }
 };
