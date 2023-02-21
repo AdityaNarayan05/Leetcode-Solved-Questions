@@ -6,7 +6,6 @@ public:
             return 0;
         }
             
-        
         unordered_map<char,int> smp,tmp;
         for(int i=0;i<s.size();i++){
             if(smp[s[i]]!=tmp[t[i]])
