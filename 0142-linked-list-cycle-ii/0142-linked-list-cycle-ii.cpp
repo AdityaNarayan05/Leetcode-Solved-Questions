@@ -12,18 +12,12 @@ public:
         if(!head or !head->next)
             return NULL;
         
-        ListNode* slow=head,*fast=head,*entry=head;
-        
-        while(fast->next and fast->next->next){
-            slow=slow->next;
-            fast=fast->next->next;
-            if(slow==fast){
-                while(slow != entry){
-                    slow=slow->next;
-                    entry=entry->next;
-                }
-                return entry;
-            }
+        unordered_set<ListNode*> st;
+        while(head){
+            if(st.find(head)!=st.end())
+                return head;
+            st.insert(head);
+            head=head->next;
         }
         return NULL;
     }
