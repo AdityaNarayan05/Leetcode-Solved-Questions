@@ -12,14 +12,14 @@ public:
         
         while(k--){
             while(i<n and projects[i].first <=w){
-                cout<<projects[i].second<<" ";
+                // cout<<projects[i].second<<" ";
                 maxCap.push(projects[i].second);
                 i++;
             }
-            cout<<endl;
+            // cout<<endl;
             if(maxCap.empty())
                 break;
-            cout<<w<<endl;
+            // cout<<w<<endl;
             w+=maxCap.top();
             maxCap.pop();
         }
