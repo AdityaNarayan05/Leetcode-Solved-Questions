@@ -38,30 +38,27 @@ public:
 };
 */
 
+Node* zero = new Node(false, true);
+Node* one = new Node(true, true);
+
 class Solution {
- public:
-  Node* construct(vector<vector<int>>& grid) {
-    return helper(grid, 0, 0, grid.size());
-  }
-
- private:
-  Node* helper(const vector<vector<int>>& grid, int i, int j, int w) {
-    if (allSame(grid, i, j, w))
-      return new Node(grid[i][j], true);
-
-    Node* node = new Node(true, false);
-    node->topLeft = helper(grid, i, j, w / 2);
-    node->topRight = helper(grid, i, j + w / 2, w / 2);
-    node->bottomLeft = helper(grid, i + w / 2, j, w / 2);
-    node->bottomRight = helper(grid, i + w / 2, j + w / 2, w / 2);
-    return node;
-  }
-
-  bool allSame(const vector<vector<int>>& grid, int i, int j, int w) {
-    return all_of(begin(grid) + i, begin(grid) + i + w,[&](const vector<int>& row){
-        return all_of(begin(row) + j, begin(row) + j + w,[&](int num){ 
-            return num == grid[i][j];
-        });
-    });
-  }
+public:
+    Node* construct(vector<vector<int>>& v) {
+        return construct(v, 0, 0, v.size());    
+    }
+private:
+    Node* construct(const vector<vector<int>>& v, int x, int y, int sz) {
+        if (sz == 1) {
+            return v[x][y] == 1 ? one : zero;
+        }
+        int hsz = sz / 2;
+        Node *tl = construct(v, x, y, hsz);
+        Node *tr = construct(v, x, y+hsz, hsz);
+        Node *bl = construct(v, x+hsz, y, hsz);
+        Node *br = construct(v, x+hsz, y+hsz, hsz);
+        if (tl == tr && bl == br && tl == bl) {
+            return tl;
+        }
+        return new Node(false, false, tl, tr, bl, br);
+    }
 };
