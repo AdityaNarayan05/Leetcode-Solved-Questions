@@ -25,7 +25,7 @@ public:
             return;
         
         res.push_back(root->val);
-        cout<<root->val<<" ";
+        // cout<<root->val<<" ";
         for(auto child:root->children)
             pre(child,res);
         
