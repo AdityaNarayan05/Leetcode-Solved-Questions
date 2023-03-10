@@ -10,23 +10,21 @@
  */
 class Solution {
 public:
-    ListNode *head = NULL;
-    
-    Solution(ListNode* head) {
-        this->head = head;
+    Solution(ListNode* head) : _head(head) {
     }
     
     int getRandom() {
-        int ans = 0, i = 1;
-        ListNode *p = this->head;
-        while(p){
-            if(rand() % i == 0) 
-                ans = p->val; // replace ans with i-th node.val with probability 1/i
-            i++;
-            p=p->next;
+        int res = 0;
+        int i = 1;
+        for(ListNode* h = _head; h; h = h->next, ++i) {
+            if(rand() % i == 0)
+                res = h->val;
         }
-        return ans;
+        return res;
     }
+
+
+    ListNode* _head;
 };
 
 /**
