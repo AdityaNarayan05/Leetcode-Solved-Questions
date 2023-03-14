@@ -12,16 +12,21 @@
 class Solution {
 public:
     int sumNumbers(TreeNode* root) {
-        return dfs(root,0);
-    }
-    int dfs(TreeNode* root,int curr){
-        if(!root)
-            return 0;
-        
-        curr=curr*10 + root->val;
-        if(!root->left and !root->right)
-            return curr;
-        
-        return dfs(root->left,curr)+dfs(root->right,curr);
+        stack<pair<TreeNode*, int>> st;
+        st.push({root,0});
+        int sum=0;
+        while(!st.empty()){
+            auto [root,curr]=st.top();
+            st.pop();
+            curr=curr*10+root->val;
+            
+            if(!root->left and !root->right)
+                sum+=curr;
+            if(root->right)
+                st.push({root->right,curr});
+            if(root->left)
+                st.push({root->left,curr});
+        }
+        return sum;
     }
 };
