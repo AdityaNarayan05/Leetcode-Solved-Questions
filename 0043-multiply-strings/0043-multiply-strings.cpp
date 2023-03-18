@@ -1,21 +1,28 @@
 class Solution {
 public:
     string multiply(string num1, string num2) {
-        string sum(num1.size() + num2.size(), '0');
-        for (int i = num1.size() - 1; 0 <= i; --i) {
-            int carry = 0;
-            for (int j = num2.size() - 1; 0 <= j; --j) {
-                int tmp = (sum[i + j + 1] - '0') + (num1[i] - '0') * (num2[j] - '0') + carry;
-                sum[i + j + 1] = tmp % 10 + '0';
-                carry = tmp / 10;
-            }
-            sum[i] += carry;
-        }
-
-        size_t startpos = sum.find_first_not_of("0");
-        if (string::npos != startpos) {
-            return sum.substr(startpos);
-        }
-        return "0";
+        if(num1=="0"||num2=="0")
+            return "0";
+        int num[405]={};
+        
+        reverse(num1.begin(),num1.end());
+        reverse(num2.begin(),num2.end());
+        
+        for(int i=0;i<num1.size();i++)
+            for(int j=0;j<num2.size();j++)
+                num[i+j]+=(num1[i]-'0')*(num2[j]-'0');
+        
+        int n=num1.size()+num2.size();
+        for(int i=0;i<n;i++)
+            if(num[i]>9)
+                num[i+1]+=num[i]/10,num[i]%=10;
+        string ans;
+        for(int i=0;i<n-1;i++)
+            ans+=('0'+num[i]);
+        if(num[n-1])
+            ans+=('0'+num[n-1]);
+        
+        reverse(ans.begin(),ans.end());
+        return ans;
     }
 };
