@@ -11,16 +11,17 @@
  */
 class Solution {
 public:
-    int de(TreeNode* root ,int &d)
-    {
-        if(root==NULL) return 0;
-         int l = de(root->left,d),r = de(root->right,d);
-         d = max(d,l+r);
-         return max(l,r)+1;
+    int de(TreeNode* root ,int &d){
+        if(root==NULL) 
+            return 0;
+         
+        int l = de(root->left,d),r = de(root->right,d);
+        d = max(d,l+r);
+        return max(l,r)+1;
     }
     int diameterOfBinaryTree(TreeNode* root) {
         int d = 0;
-         de(root,d);
+        de(root,d);
         return d;   
     }
 };
