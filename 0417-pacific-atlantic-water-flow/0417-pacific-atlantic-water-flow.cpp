@@ -1,60 +1,39 @@
 class Solution {
 public:
-    vector<pair<bool,bool>> mem;
-    const vector<vector<int>>* __restrict__ pHs;
-    int m;
-    int n;
-
-    void dfs(const int i, const int j, const int h, const pair<bool,bool> curr){
-        if (i < 0 || j < 0) 
-            return; 
-        if (i >= m || j >= n) 
-            return; 
+    vector<vector<int>> res;
+    vector<vector<int>> vis;
+    vector<vector<int>> dir={{1,0},{-1,0},{0,1},{0,-1}};
+    
+    void dfs(vector<vector<int>>& matrix, int x, int y, int pre, int preval){
+        if (x < 0 or x >= matrix.size() or y < 0 or y >= matrix[0].size() or matrix[x][y] < pre) 
+            return;
+        if((vis[x][y] & preval) == preval)
+            return;
         
-        const int he = (*pHs)[i][j];
-        if (he < h) 
-            return;
-        const int index = n * i + j;
-        if ((mem[index].first == curr.first || mem[index].first) && (mem[index].second == curr.second || mem[index].second)) 
-            return;
-        mem[index].first |= curr.first;
-        mem[index].second |= curr.second;
-
-        dfs(i+1, j, he, curr);
-        dfs(i-1, j, he, curr);
-        dfs(i, j+1, he, curr);
-        dfs(i, j-1, he, curr);
+        vis[x][y] |= preval;
+        if (vis[x][y] == 3) 
+            res.push_back({x, y});
+        
+        for(int i=0;i<4;i++)
+            dfs(matrix, x + dir[i][0], y+dir[i][1], matrix[x][y], vis[x][y]); 
     }
 
-
-    vector<vector<int>> pacificAtlantic(const vector<vector<int>>& heights) {
-        m = int(heights.size());
-        n = int(heights[0].size());
-        mem.resize(m * n);
-        pHs = &heights;
-
-        for(int i=0;i<m;++i){
-            dfs(i, 0, heights[i][0], {true, false});
-            dfs(i, n-1, heights[i][n-1], {false, true});
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& matrix) {
+        if (matrix.empty()) 
+            return res;
+        
+        int m = matrix.size(), n = matrix[0].size();
+        vis.resize(m, vector<int>(n, 0));
+        
+        for (int i = 0; i < m; i++) {
+            dfs(matrix, i, 0, INT_MIN, 1);
+            dfs(matrix, i, n - 1, INT_MIN, 2);
         }
-
-        for(int j=0;j<n;++j){
-            dfs(0, j, heights[0][j], {true, false});
-            dfs(m-1, j, heights[m-1][j], {false, true});
+        for (int i = 0; i < n; i++) {
+            dfs(matrix, 0, i, INT_MIN, 1);
+            dfs(matrix, m - 1, i, INT_MIN, 2);
         }
-
-        vector<vector<int>> ans;
-        ans.reserve(m * n);
-
-        for(int i=0;i<m;++i){
-            for(int j=0;j<n;++j){
-                const int index = n * i + j;
-                const auto[po, ao] = mem[index];
-                if (po && ao){
-                    ans.push_back({i,j});
-                }
-            }
-        }
-        return ans;  
+        
+        return res;
     }
 };
