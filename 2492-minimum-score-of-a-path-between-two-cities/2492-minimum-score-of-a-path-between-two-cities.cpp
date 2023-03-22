@@ -1,5 +1,17 @@
 class Solution {
 public:
+    int dfs(int node,int &ans,vector<vector<pair<int,int>>> &g,vector<int> &vis){
+        vis[node]=1;
+        for(auto &[v,dis]:g[node]){
+            ans=min(ans,dis);
+            if(vis[v]==0){
+                vis[v]=1;
+                ans=min(ans,dfs(v,ans,g,vis));
+            }
+        }
+        return ans;
+    }
+    
     int minScore(int n, vector<vector<int>>& roads) {
         int ans=INT_MAX;
         vector<vector<pair<int,int>>> g(n+1);
@@ -9,20 +21,23 @@ public:
         }
         
         vector<int> vis(n+1,0);
-        queue<int> q;
-        q.push(1);
-        vis[1]=1;
-        while(!q.empty()){
-            auto node=q.front();
-            q.pop();
-            for(auto &[v,dis]:g[node]){
-                ans=min(ans,dis);
-                if(vis[v]==0){
-                    vis[v]=1;
-                    q.push(v);
-                }
-            }
-        }
+        dfs(1,ans,g,vis);
+        
+        //BFS Implementation
+        // queue<int> q;
+        // q.push(1);
+        // vis[1]=1;
+        // while(!q.empty()){
+        //     auto node=q.front();
+        //     q.pop();
+        //     for(auto &[v,dis]:g[node]){
+        //         ans=min(ans,dis);
+        //         if(vis[v]==0){
+        //             vis[v]=1;
+        //             q.push(v);
+        //         }
+        //     }
+        // }
         return ans;
     }
 };
