@@ -11,21 +11,30 @@
  */
 class Solution {
 public:
-    vector<int> res;
-    void dfs(TreeNode* node,int currLvl){
-        if(!node) 
-            return;
-        if(currLvl >= res.size()){
-            cout<<node->val<<" ";
-            res.push_back(node->val); 
-        }
-        if(node->right)
-            dfs(node->right,currLvl+ 1);
-        if(node->left)
-            dfs(node->left,currLvl + 1);
-    }
+    vector<int> ans;
     vector<int> rightSideView(TreeNode* root) {
-        dfs(root,0);
-        return res;
+        if(!root)
+            return ans;
+        
+		queue<TreeNode*>q;
+        q.push(root);
+		// Level order transversal
+		while(!q.empty()){
+            int s=q.size();
+            int dat=0;
+            while(s){
+                TreeNode*temp=q.front();
+                q.pop();
+                dat=temp->val;
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
+                s--;
+            }
+			// Simply push ush the last value
+            ans.push_back(dat);
+        }
+        return ans;
     }
 };
