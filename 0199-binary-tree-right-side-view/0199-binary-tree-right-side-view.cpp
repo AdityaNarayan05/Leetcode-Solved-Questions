@@ -15,8 +15,10 @@ public:
     void dfs(TreeNode* node,int currLvl){
         if(!node) 
             return;
-        if(currLvl >= res.size())
-            res.push_back(node->val);
+        if(currLvl >= res.size()){
+            cout<<node->val<<" ";
+            res.push_back(node->val); 
+        }
         if(node->right)
             dfs(node->right,currLvl+ 1);
         if(node->left)
