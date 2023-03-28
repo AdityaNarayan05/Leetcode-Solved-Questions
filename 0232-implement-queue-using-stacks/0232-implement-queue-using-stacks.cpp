@@ -4,17 +4,14 @@ public:
     MyQueue() {
         
     }
-    
     void push(int x) {
         s1.push(x);
     }
-    
     int pop() {
         int res=peek();
         s2.pop();
         return res;
     }
-    
     int peek() {
         if(s2.empty()){
             while(!s1.empty()){
@@ -24,7 +21,6 @@ public:
         }
         return s2.top();
     }
-    
     bool empty() {
         return s1.empty()&&s2.empty();
     }
