@@ -1,21 +1,19 @@
 class Solution {
 public:
-    int dp[1000][1000];
-    int longPalinSubseq(string &s,int i,int j){
-        if(i==j)
-            return 1;
-        if(i>j)
-            return 0;
-        
-        if(dp[i][j])
-            return dp[i][j];
-        
-        if(s[i]==s[j])
-            return dp[i][j]=2+longPalinSubseq(s,i+1,j-1);
-        
-        return dp[i][j]=max(longPalinSubseq(s,i+1,j),longPalinSubseq(s,i,j-1));
-    }
     int minInsertions(string s) {
-        return s.size()-longPalinSubseq(s,0,s.size()-1);
+        int n = s.size();
+        int dp[n];
+        memset(dp, 0, sizeof(dp));
+        for (int i = n - 1; ~i; --i) {
+            int pre = 0;
+            for (int j = i + 1; j < n; ++j) {
+                int temp = dp[j];
+                if (s[i] == s[j]) 
+                    dp[j] = pre;
+                else dp[j] = 1 + min(dp[j], dp[j - 1]);
+                pre = temp;
+            }
+        }
+        return dp[n - 1];
     }
 };
