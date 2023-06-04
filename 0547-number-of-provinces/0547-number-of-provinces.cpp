@@ -14,9 +14,9 @@ public:
  private:
     void dfs(int i,vector<vector<int>>& m,vector<bool>& vis){
         vis[i]=true;
-        for(int j=0;j<vis.size();j++){
+        
+        for(int j=0;j<vis.size();j++)
             if(i!=j&&m[i][j]&&!vis[j])
                 dfs(j,m,vis);
-        }
     }
 };
