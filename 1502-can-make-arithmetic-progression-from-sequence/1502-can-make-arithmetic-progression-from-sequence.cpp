@@ -1,14 +1,26 @@
 class Solution {
 public:
     bool canMakeArithmeticProgression(vector<int>& arr) {
-        sort(arr.begin(),arr.end());
         int n=arr.size();
-        int d=arr[1]-arr[0];
+        int mini=INT_MAX;
+        int maxi=INT_MIN;
+        unordered_map<int,int> mp;
         
-        for(int i=2;i<n;i++)
-            if(arr[i]-arr[i-1]!=d)
+        for(auto &it : arr){
+            maxi=max(maxi,it);
+            mini=min(mini,it);
+            mp[it]++;
+        }
+        
+        if((maxi-mini)%(n-1)!=0)
+            return false;
+        int d=(maxi-mini)/(n-1);
+        
+        while(n--){
+            if(!mp[maxi])
                 return false;
-        
+            maxi-=d;
+        }
         return true;
     }
 };
