@@ -1,20 +1,13 @@
 class Solution {
 public:
-    vector<vector<int>> dp;
-    
-    int fun(int i,int j){
-        if(i==0 && j==0)
-            return 1;
-        if(i<0 || j<0)
-            return 0;
+    int uniquePaths(int m, int n) {
+        int N = n + m - 2;
+        int r = m - 1; 
+        double res = 1;
+            
+        for (int i = 1; i <= r; i++)
+            res = res * (N - r + i) / i;
         
-        if(dp[i][j] != -1)
-            return dp[i][j];
-        
-        return dp[i][j] = fun(i-1,j)+fun(i,j-1);
-    }
-    int uniquePaths(int m, int n) {   
-        dp.resize(m,vector<int>(n,-1));
-        return fun(m-1,n-1);
+        return (int)res;
     }
 };
