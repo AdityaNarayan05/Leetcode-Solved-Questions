@@ -14,16 +14,15 @@ public:
         if(!head or !head->next)
             return head;
         
-        ListNode* pptr=nullptr,*cptr=head,*nptr;
+        ListNode* nhead=NULL;
         
-        while(cptr){
-            nptr=cptr->next;
-            cptr->next=pptr;
-            
-            pptr=cptr;
-            cptr=nptr;
+        while(head){
+            ListNode* next=head->next;
+            head->next=nhead;
+            nhead=head;
+            head=next;
         }
         
-        return pptr;    
+        return nhead;    
     }
 };
