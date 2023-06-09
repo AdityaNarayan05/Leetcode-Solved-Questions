@@ -14,14 +14,9 @@ public:
         if(!head or !head->next)
             return head;
         
-        ListNode* nhead=NULL;
-        
-        while(head){
-            ListNode* next=head->next;
-            head->next=nhead;
-            nhead=head;
-            head=next;
-        }
+        ListNode* nhead=reverseList(head->next);
+        head->next->next=head;
+        head->next=NULL;
         
         return nhead;    
     }
