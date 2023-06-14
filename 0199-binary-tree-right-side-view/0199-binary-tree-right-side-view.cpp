@@ -13,28 +13,28 @@ class Solution {
 public:
     vector<int> ans;
     vector<int> rightSideView(TreeNode* root) {
-        if(!root)
-            return ans;
-        
-		queue<TreeNode*>q;
-        q.push(root);
-		// Level order transversal
-		while(!q.empty()){
-            int s=q.size();
-            int dat=0;
-            while(s){
-                TreeNode*temp=q.front();
-                q.pop();
-                dat=temp->val;
-                if(temp->left)
-                    q.push(temp->left);
-                if(temp->right)
-                    q.push(temp->right);
-                s--;
-            }
-			// Simply push ush the last value
-            ans.push_back(dat);
+        if(!root){
+            return {};
         }
-        return ans;
+        vector<int> nums;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            int n=q.size();
+            for(int i=0;i<n;i++){
+                TreeNode* temp=q.front();
+                q.pop();
+                if(i==n-1){
+                    nums.push_back(temp->val);
+                }
+                if(temp->left){
+                    q.push(temp->left);
+                }
+                if(temp->right){
+                    q.push(temp->right);
+                }
+            }
+        }
+        return nums;
     }
 };
