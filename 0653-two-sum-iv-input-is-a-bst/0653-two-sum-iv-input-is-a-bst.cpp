@@ -11,23 +11,15 @@
  */
 class Solution {
 public:
-    vector<int> nums;
-    void preorder(TreeNode* root){
-        if(!root)
-            return ;
-        
-        preorder(root->left);
-        nums.push_back(root->val);
-        preorder(root->right);
-    }
+    unordered_set<int> s;
     bool findTarget(TreeNode* root, int k) {
-        preorder(root);
+        if (!root)
+            return false;
+
+        if (s.count(k - root->val))
+            return true;
         
-        for(int i=0;i<nums.size();i++)
-            for(int j=i+1;j<nums.size();j++)
-                if(nums[i]+nums[j]==k)
-                    return true;
-        
-        return false;
+        s.insert(root->val);
+        return findTarget(root->left, k) || findTarget(root->right, k);
     }
 };
