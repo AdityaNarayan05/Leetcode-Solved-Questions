@@ -15,8 +15,7 @@ public:
         subset(nums,i+1);
     }
     vector<vector<int>> subsets(vector<int>& nums) {
-        int i=0;
-        subset(nums,i);
+        subset(nums,0);
         return subs;    
     }
 };
