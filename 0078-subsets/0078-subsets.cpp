@@ -1,14 +1,22 @@
 class Solution {
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> subs={{}};
-        for(auto num:nums){
-            int n=subs.size();
-            for(int i=0;i<n;i++){
-                subs.push_back(subs[i]); 
-                subs.back().push_back(num);
-            }
+    vector<vector<int>> subs;
+    vector<int> sub;
+    
+    void subset(vector<int> nums,int i){
+        if(i==nums.size()){
+            subs.push_back(sub);
+            return;
         }
-        return subs;
+        sub.push_back(nums[i]);
+        cout<<i<<endl;
+        subset(nums,i+1);
+        sub.pop_back();
+        subset(nums,i+1);
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        int i=0;
+        subset(nums,i);
+        return subs;    
     }
 };
