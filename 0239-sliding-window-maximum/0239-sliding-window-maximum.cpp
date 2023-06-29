@@ -2,39 +2,39 @@
 class Solution {
 public:
     
-    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        multiset<int,greater<int>> s;
-        vector<int> ans;
-        for(int i=0;i<k;i++)
-            s.insert(nums[i]);
+//     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+//         multiset<int,greater<int>> s;
+//         vector<int> ans;
+//         for(int i=0;i<k;i++)
+//             s.insert(nums[i]);
         
-        ans.push_back(*s.begin());
-        for(int i=k;i<nums.size();i++){
-            s.erase(s.lower_bound(nums[i-k]));
-            s.insert(nums[i]);
-            ans.push_back(*s.begin());
-        }
-        return ans;
-    }
+//         ans.push_back(*s.begin());
+//         for(int i=k;i<nums.size();i++){
+//             s.erase(s.lower_bound(nums[i-k]));
+//             s.insert(nums[i]);
+//             ans.push_back(*s.begin());
+//         }
+//         return ans;
+//     }
     
     // Heap solution 
     
     
-//     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-//         priority_queue<pair<int,int>> pq;
-//         vector<int> ans;  
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        priority_queue<pair<int,int>> pq;
+        vector<int> ans;  
     
-//         for(int i=0;i<nums.size();++i){
-//             while(!pq.empty() and pq.top().second<=(i-k))
-//                 pq.pop();
-//             pq.push({nums[i],i}); 
-//             if(i>=k-1){
-//                 ans.push_back(pq.top().first);
-//                 // cout<<pq.top().first<<" ";
-//             }          
-//         }
-//         return ans;
-//     }
+        for(int i=0;i<nums.size();++i){
+            while(!pq.empty() and pq.top().second<=(i-k))
+                pq.pop();
+            pq.push({nums[i],i}); 
+            if(i>=k-1){
+                ans.push_back(pq.top().first);
+                // cout<<pq.top().first<<" ";
+            }          
+        }
+        return ans; 
+    }
 
     
     // Deque solution
