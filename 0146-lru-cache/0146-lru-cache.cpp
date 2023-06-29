@@ -1,34 +1,75 @@
 class LRUCache {
-    int capacity;
-    list<pair<int, int>> li;
-    unordered_map<int, list<pair<int, int>>::iterator> um; 
-
 public:
-    LRUCache(int capacity) : capacity{capacity} {}
+
+    class Node{
+        public: 
+        int key,val;
+        Node* next,*prev;
+        
+        Node(int k,int v){
+            key=k;
+            val=v;
+        }
+    };
+    
+    Node* head=new Node(-1,-1);
+    Node* tail=new Node(-1,-1);
+    
+    int cap;
+    unordered_map<int, Node*> mp;
+    
+    LRUCache(int capacity) {
+        cap=capacity;
+        head->next=tail;
+        tail->prev=head;
+    }
+    
+    void addNode(Node* newNode){
+        Node* temp=head->next;
+        newNode->next=temp;
+        newNode->prev=head;
+        head->next=newNode;
+        temp->prev=newNode;
+    }
+    
+    void deleteNode(Node* delNode){
+        Node* delprev=delNode->prev;
+        Node* delnext=delNode->next;
+        delprev->next=delnext;
+        delnext->prev=delprev;
+    }
     
     int get(int key) {
-        if (um.find(key) == um.end()) return -1;
-        li.splice(li.begin(), li, um[key]);
-        return um[key]->second;
+        if(mp.find(key)!=mp.end()){
+            Node* node=mp[key];
+            int res=node->val;
+            mp.erase(key);
+            
+            deleteNode(node);
+            addNode(node);
+            
+            mp[key]=head->next;
+            return res;
+        }
+        return -1;
     }
     
     void put(int key, int value) {
-        if (get(key) != -1) {
-            um[key]->second = value;
-            return;
+        if(mp.find(key)!=mp.end()){
+            Node* root=mp[key];
+            mp.erase(key);
+            deleteNode(root);
         }
         
-        if (um.size() == capacity) {
-            int delKey = li.back().first;
-            li.pop_back();
-            um.erase(delKey);
+        if(mp.size()==cap){
+            mp.erase(tail->prev->key);
+            deleteNode(tail->prev);
         }
         
-        li.emplace_front(key, value);
-        um[key] = li.begin();
+        addNode(new Node(key,value));
+        mp[key]=head->next;
     }
 };
-
 
 /**
  * Your LRUCache object will be instantiated and called as such:
