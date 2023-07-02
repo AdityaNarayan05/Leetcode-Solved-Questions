@@ -1,19 +1,28 @@
 class Solution {
 public:
-    vector<int> dp;
-    
-    int rob(vector<int>& nums){
-        dp.resize(nums.size()+1,-1);
-        return robRec(nums,0);
+    int funct(int n,vector<int> &nums){
+        // if(n==0)
+        //     return nums[0];
+        // if(n<0)
+        //     return 0;
+        
+        int a=nums[0];
+        int b=0;
+        
+        for(int i=1;i<n;i++){
+            int pick=nums[i];
+            if(i>1){
+                pick+=b;
+            }
+            int notP=0+a;
+            int c=max(pick,notP);
+            b=a;
+            a=c;
+        }
+        return a;
     }
     
-    int robRec(vector<int> &nums,int idx){
-        if(idx>=nums.size())
-            return 0;
-        
-        if(dp[idx]!=-1)
-            return dp[idx];
-        
-        return dp[idx]=max(nums[idx]+robRec(nums,idx+2),robRec(nums,idx+1));
+    int rob(vector<int>& nums) {
+        return funct(nums.size(),nums);
     }
 };
