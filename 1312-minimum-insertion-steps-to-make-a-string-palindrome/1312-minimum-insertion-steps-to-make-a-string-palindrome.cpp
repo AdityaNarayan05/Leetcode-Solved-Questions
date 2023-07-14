@@ -1,19 +1,25 @@
 class Solution {
 public:
-    int minInsertions(string s) {
-        int n = s.size();
-        int dp[n];
-        memset(dp, 0, sizeof(dp));
-        for (int i = n - 1; ~i; --i) {
-            int pre = 0;
-            for (int j = i + 1; j < n; ++j) {
-                int temp = dp[j];
-                if (s[i] == s[j]) 
-                    dp[j] = pre;
-                else dp[j] = 1 + min(dp[j], dp[j - 1]);
-                pre = temp;
+    int longestPalindromeSubseq(string s) {
+        string rs=s;
+        reverse(rs.begin(),rs.end());
+        // cout<<rs;
+        int n=s.size();
+        vector<int> prev(n+1,0), cur(n+1,0);
+
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=n;j++){
+                if(s[i-1]==rs[j-1])
+                    cur[j] = 1 + prev[j-1];
+                else
+                    cur[j] = 0 + max(prev[j],cur[j-1]);
             }
+            prev=cur;
         }
-        return dp[n - 1];
+
+        return prev[n];
+    }
+    int minInsertions(string s) {
+        return s.size()-longestPalindromeSubseq(s);
     }
 };
